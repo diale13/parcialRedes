@@ -84,7 +84,7 @@ namespace Client
                 }
                 tcpClient.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Ha ocurrido un error de conexion verifique su app config o que el servidor este levantado");
                 Console.ReadLine();

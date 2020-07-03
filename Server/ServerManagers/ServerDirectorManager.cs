@@ -40,8 +40,8 @@ namespace Server
 
             var data = parser.GetDataObject(frame);
             var dirName = data[0];
-            var dirToDelete = directorService.GetDirector(dirName);
-            directorService.DeleteDirector(dirToDelete);
+            //  var dirToDelete = directorService.GetDirector(dirName);
+            directorService.DeleteDirector(dirName);
         }
 
         public static void ModifyDirector(byte[] frame)

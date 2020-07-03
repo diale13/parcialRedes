@@ -11,7 +11,7 @@ namespace IServices
     {
         List<Director> GetDirectors();
         void AddDirector(Director dir);
-        void DeleteDirector(Director name);
+        void DeleteDirector(string name);
         void UpdateDirector(string oldDirName, Director updatedDir);
         Director GetDirector(string dirName);
 

@@ -32,14 +32,14 @@ namespace Services
             return dir.Name != "";
         }
 
-        public void DeleteDirector(Director dir)
+        public void DeleteDirector(string name)
         {
-            if(dir.DirectedMovies.Count() == 0)
+            var dir = directorDataAccess.GetDirector(name);
+            if (dir.DirectedMovies.Count() != 0)
             {
                 throw new BussinesLogicException("Un director no puede ser borrado si esta asociado a una pelicula");
             }
-
-            directorDataAccess.DeleteDirector(dir.Name);
+            directorDataAccess.DeleteDirector(name);
         }
 
         public List<Director> GetDirectors()
@@ -55,7 +55,7 @@ namespace Services
 
         public Director GetDirector(string dirName)
         {
-           return directorDataAccess.GetDirector(dirName);
+            return directorDataAccess.GetDirector(dirName);
         }
     }
 }
