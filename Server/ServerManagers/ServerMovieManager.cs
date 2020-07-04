@@ -76,7 +76,7 @@ namespace Server
                 asociationService.DeAsociateGenreMovie(movieToDelete, genreToDesaciate);
             }
 
-            movieService.Delete(movieToDelete);
+            movieService.Delete(name);
         }
 
         public static void Modify(byte[] frame)

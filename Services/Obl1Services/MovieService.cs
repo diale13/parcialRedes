@@ -20,9 +20,10 @@ namespace Services
             this.movieDataA = movieDataA;
         }
 
-        public void Delete(Movie mov)
+        public void Delete(string mov)
         {
-            movieDataA.Delete(mov);
+            var movieToDelete = movieDataA.GetMovie(mov);
+            movieDataA.Delete(movieToDelete);
         }
 
         public void Update(string oldName, Movie updatedMovie)

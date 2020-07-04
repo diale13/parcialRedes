@@ -94,6 +94,8 @@
     </Compile>
     <Compile Include="Models\DirectorCompleteModelIN.cs" />
     <Compile Include="Models\GenreCompleteModelIn.cs" />
+    <Compile Include="Models\Movies\MovieSimpleModelOUT.cs" />
+    <Compile Include="Models\Movies\MovieFullModel.cs" />
     <Compile Include="Models\User\UserLogInModel.cs" />
     <Compile Include="Models\User\UserLogOutModel.cs" />
     <Compile Include="Models\User\UserModelOut.cs" />

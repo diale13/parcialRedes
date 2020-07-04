@@ -3,6 +3,7 @@ using Domain;
 using IDataAccess;
 using IServices;
 using System;
+using System.Threading;
 
 namespace Services
 {
@@ -11,19 +12,19 @@ namespace Services
 
         private readonly IAsociationHandler associationHandler;
 
-        private readonly Object asociationLock;
+        private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         public AsociationService(IAsociationHandler aHandler)
         {
             this.associationHandler = aHandler;
-            this.asociationLock = new object();
         }
 
 
         public void DeAsociateGenreMovie(Movie movie, Genre genre)
         {
-            lock (asociationLock)
+            try
             {
+                semaphore.WaitAsync();
                 if (!movie.Genres.Contains(genre.Name))
                 {
                     throw new BussinesLogicException("La pelicula no tiene el genero para ser desasociado");
@@ -34,12 +35,17 @@ namespace Services
 
                 associationHandler.UpdateMovieAndGenre(movie, genre);
             }
+            finally
+            {
+                semaphore.Release();
+            }
 
         }
 
         public void AsociateGenreToMovie(Movie movie, Genre genre)
         {
-            lock (asociationLock)
+            semaphore.WaitAsync();
+            try
             {
                 if (movie.Genres.Contains(genre.Name))
                 {
@@ -51,13 +57,18 @@ namespace Services
 
                 associationHandler.UpdateMovieAndGenre(movie, genre);
             }
+            finally
+            {
+                semaphore.Release();
+            }
         }
 
 
         public void AsociateDirectorMovie(Movie movie, Director director)
-        {
-            lock (asociationLock)
+        {            
+            try
             {
+                semaphore.WaitAsync();
                 if (movie.Director.Equals(director))
                 {
                     throw new BussinesLogicException("La pelicula ya tiene el director");
@@ -67,13 +78,18 @@ namespace Services
 
                 associationHandler.UpdateMovieDirector(movie, director);
             }
+            finally
+            {
+                semaphore.Release();
+            }
         }
 
 
         public void DeAsociatDirMovie(Movie movie, Director director)
         {
-            lock (asociationLock)
+            try
             {
+                semaphore.WaitAsync();
                 if (!movie.Director.Equals(director.Name))
                 {
                     throw new BussinesLogicException("El director no dirige esa pelicula");
@@ -84,7 +100,10 @@ namespace Services
 
                 associationHandler.UpdateMovieDirector(movie, director);
             }
-
+            finally
+            {
+                semaphore.Release();
+            }
         }
 
 

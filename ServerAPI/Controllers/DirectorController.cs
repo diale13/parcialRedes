@@ -3,8 +3,6 @@ using DataAccess.Exceptions;
 using IDataAccess;
 using IServices;
 using Services;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
