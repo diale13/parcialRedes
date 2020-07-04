@@ -1,12 +1,12 @@
 ﻿using DataAccess;
+using DataAccess.Exceptions;
 using Domain;
 using IDataAccess;
 using IServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace Services
 {
@@ -14,10 +14,15 @@ namespace Services
     {
 
         private readonly IMovieDataAccess movieDataA;
+        private IAsociationApiService asociationService = new AsociationApiService();
+        private IDirectorService dirService;
+        private IDirectorDataAccess dirDa = new DirectorDataAccess();
 
         public MovieService(IMovieDataAccess movieDataA)
         {
             this.movieDataA = movieDataA;
+            dirService = new DirectorService(dirDa);
+
         }
 
         public void Delete(string mov)
@@ -40,6 +45,8 @@ namespace Services
             IGenreDataAccess genreDataAccess = new GenreDataAccess();
             IGenreService genreService = new GenreService(genreDataAccess);
 
+
+
             if (movieToUpload.Genres.Count() < 1)
             {
                 throw new BussinesLogicException("Una pelicula debe tener uno o mas generos asociados");
@@ -53,8 +60,36 @@ namespace Services
             {
                 throw new BussinesLogicException("Ningun genero especificado coincide con el/los brindado/s");
             }
+            Director dir = new Director();
+            try
+            {
+                dir = dirDa.GetDirector(movieToUpload.Director);
+                UpdateDirectorMovies(dir, movieToUpload.Name);
+            }
+            catch (DataBaseException)
+            {
+                throw new BussinesLogicException($"El director especificado no existe ");
+            }
             movieDataA.Upload(movieToUpload);
+            foreach (var gen in movieToUpload.Genres)
+            {
+                var genInList = genreService.GetGenre(gen);
+                genInList.MoviesOfGenre.Add(movieToUpload.Name);
+                genreService.Update(gen, genInList);
+            }
+
         }
+
+        private void UpdateDirectorMovies(Director dir, string movieName)
+        {
+            dir.DirectedMovies.Add(movieName);
+            var dirMov = dir.DirectedMovies.Distinct().ToList();
+            dir.DirectedMovies = dirMov;
+            dirService.UpdateDirector(dir.Name, dir);
+        }
+
+
+
         public Movie GetMovie(string name)
         {
             return movieDataA.GetMovie(name);

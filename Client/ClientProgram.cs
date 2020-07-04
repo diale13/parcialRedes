@@ -36,7 +36,7 @@ namespace Client
                         while (frameToBeSent == "")
                         {
                             frameToBeSent = Console.ReadLine();
-                        }                      
+                        }
 
                         if (frameToBeSent.Equals("exit"))
                         {
@@ -84,10 +84,11 @@ namespace Client
                 }
                 tcpClient.Close();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Console.WriteLine("Ha ocurrido un error de conexion verifique su app config o que el servidor este levantado");
                 Console.ReadLine();
+                await Main(null);
             }
         }
 

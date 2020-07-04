@@ -29,7 +29,12 @@ namespace ServerAPI.Controllers
         {
             await Task.Yield();
             var allMovies = movieService.GetMovies();
-            return Ok(allMovies);
+            var ret = new List<MovieSimpleModelOUT>();
+            foreach (var mov in allMovies)
+            {
+                ret.Add(new MovieSimpleModelOUT(mov));
+            }
+            return Ok(ret);
         }
 
         [Route("{movieName}", Name = "GetMovieByName")]
@@ -39,8 +44,8 @@ namespace ServerAPI.Controllers
             await Task.Yield();
             try
             {
-                var mov = movieService.GetMovie(movieName);
-                return Ok(mov);
+                var mov = movieService.GetMovie(movieName);                
+                return Ok(new MovieSimpleModelOUT(mov));
             }
             catch (DataBaseException)
             {
@@ -65,6 +70,10 @@ namespace ServerAPI.Controllers
             catch (DataBaseException)
             {
                 return Content(HttpStatusCode.Accepted, $"{newMovie.Name} already exists");
+            }
+            catch (BussinesLogicException e)
+            {
+                return Content(HttpStatusCode.Accepted, $"{e.Message}");
             }
         }
 

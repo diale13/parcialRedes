@@ -13,10 +13,9 @@ namespace ServerAPI.Models
         [Required]
         public DateTime Date { get; set; }
         public string Director { get; set; }
-        
+
         //public List<string> Files { get; set; }        
         public int TotalRating { get; set; }
-
 
         public Movie ToEntity()
         {
@@ -28,7 +27,7 @@ namespace ServerAPI.Models
                 Director = this.Director,
                 TotalRating = this.TotalRating
             };
-            if(movie.Genres == null)
+            if (movie.Genres == null)
             {
                 movie.Genres = new List<string>();
             }

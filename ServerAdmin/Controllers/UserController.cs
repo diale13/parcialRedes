@@ -35,57 +35,7 @@ namespace ServerAdmin.Controllers
             return Ok(model);
         }
 
-        [Route("")]
-        [HttpPost]
-        public async Task<IHttpActionResult> PostAsync([FromBody] UserCompleteModel newUser)
-        {
-            await Task.Yield();
-            if (newUser == null)
-            {
-                return BadRequest("User can not be empty");
-            }
-            var wasAded = userLogic.AddUser(newUser.ToEntity());
-            if (!wasAded)
-            {
-                return Content(HttpStatusCode.Accepted, $"Username {newUser.NickName} is already taken");
-            }
-            return Content(HttpStatusCode.Created, $"User created {newUser}");
-        }
-
-        [Route("")]
-        [HttpPut]
-        public async Task<IHttpActionResult> PutAsync([FromBody] UserCompleteModel updatedUser)
-        {
-            await Task.Yield();
-            if (updatedUser == null)
-            {
-                return BadRequest("User can not be empty");
-            }
-            var wasUpdated = userLogic.UpdateUser(updatedUser.ToEntity());
-            if (!wasUpdated)
-            {
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, "The user does not exist in our servers"));
-            }
-            return Ok("Updated");
-        }
-
-        [LogInFilter]
-        [HttpDelete]
-        [Route("")]
-        public async Task<IHttpActionResult> Delete([FromBody] UserLogInModel userToDelete)
-        {
-            await Task.Yield();
-            if (userToDelete == null)
-            {
-                return BadRequest("User can not be empty");
-            }
-            var wasDeleted = userLogic.DeleteUser(userToDelete.NickName, userToDelete.Password);
-            if (!wasDeleted)
-            {
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, "The user does not exist in our servers"));
-            }
-            return Ok("Deleted");
-        }
+       
 
         [LogInFilter]
         [Route("{userName}/favoriteMovies", Name = "GetFavMovies")]

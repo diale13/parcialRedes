@@ -14,7 +14,7 @@ namespace ServerAPI
         public DateTime BirthDate { get; set; }
         [Required]
         public string Genre { get; set; }
-        public List<string> DirectedMovies { get; set; }
+        //public List<string> DirectedMovies { get; set; }
         public string Description { get; set; }
 
         public Director ToEntity()
@@ -23,14 +23,10 @@ namespace ServerAPI
             {
                 Name = this.Name,
                 BirthDate = this.BirthDate,
-                DirectedMovies = this.DirectedMovies,
+                DirectedMovies = new List<string>(),
                 Genre = this.Genre,
                 Description = Description
             };
-            if(ret.DirectedMovies == null)
-            {
-                ret.DirectedMovies = new List<string>();
-            }
             return ret;
         }
 

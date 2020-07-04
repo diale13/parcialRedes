@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAdmin", "ServerAdmin\ServerAdmin.csproj", "{6E3D3C3C-B9CC-4C4B-A35E-726D127309BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerProxy", "ServerAdmin\ServerProxy.csproj", "{6E3D3C3C-B9CC-4C4B-A35E-726D127309BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueStarter", "QueueStarter\QueueStarter.csproj", "{593A707F-6A80-4FB5-9B47-3955E2DFD2D2}"
 EndProject
