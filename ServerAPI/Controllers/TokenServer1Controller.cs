@@ -44,7 +44,11 @@ namespace ServerAPI.Controllers
             {
                 return BadRequest("Token was empty");
             }
-            sessionLogic.DeleteLoggedUser(logout.Token);
+            var logOut = sessionLogic.DeleteLoggedUser(logout.Token);
+            if (!logOut)
+            {
+                return Content(HttpStatusCode.NotFound, "No se ha encontrado el token");
+            }
             return Ok("Logged out");
         }
 
