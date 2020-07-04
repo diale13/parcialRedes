@@ -8,6 +8,14 @@ POST DIRECTOR:
     "DirectedMovies" : "",
     "Description" : "Esta cansado y solo quiere dormir"
 }
+
+{
+    "Name" : "Robert Martin",
+    "BirthDate" : "1850/12/14",
+    "Genre" : "Clean",
+    "DirectedMovies" : "",
+    "Description" : "He the cleanest coder ever"
+}
    
 POST GENRE
 
@@ -22,6 +30,14 @@ POST GENRE
 }
    
 
+POST USER
+{
+    "NickName": "diale13",
+    "Email": "diegofranggi@gmail.com",
+    "BirthDay" :"1998/12/14",
+    "Password": "supersecure123.",
+    "FirstName": "Diego",
+    "LastName": "Franggi"
+}
 
-   
 

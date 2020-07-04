@@ -94,6 +94,10 @@
     </Compile>
     <Compile Include="Models\DirectorCompleteModelIN.cs" />
     <Compile Include="Models\GenreCompleteModelIn.cs" />
+    <Compile Include="Models\User\UserLogInModel.cs" />
+    <Compile Include="Models\User\UserLogOutModel.cs" />
+    <Compile Include="Models\User\UserModelOut.cs" />
+    <Compile Include="Models\User\UserRegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Middleware\ValidateModelFilter.cs" />
   </ItemGroup>

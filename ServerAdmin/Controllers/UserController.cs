@@ -13,7 +13,7 @@ namespace ServerAdmin.Controllers
     [RoutePrefix("User")]
     public class UserController : ApiController
     {
-        private readonly IApiUserService userLogic;   
+        private readonly IApiUserService userLogic;
 
         public UserController()
         {
