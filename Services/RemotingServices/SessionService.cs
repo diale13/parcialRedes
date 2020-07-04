@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Services
 {
-    public class SessionService : MarshalByRefObject, ISessionService
+    public class SessionService :  ISessionService
     {
         private IApiUsersDataAccess apiUsersDataAccess = new ApiUsersDataAccess();
         private static IDictionary<string, string> TokenRepository = new Dictionary<string, string>();

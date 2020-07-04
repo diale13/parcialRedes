@@ -88,6 +88,7 @@
     <Compile Include="Controllers\DirectorController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
+    <Compile Include="Controllers\TokenServer1Controller.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
