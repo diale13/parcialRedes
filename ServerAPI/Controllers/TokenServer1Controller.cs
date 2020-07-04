@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using ServerAPI.Models;
+using System.Web.UI.WebControls;
 
 namespace ServerAPI.Controllers
 {
@@ -47,9 +48,22 @@ namespace ServerAPI.Controllers
             var logOut = sessionLogic.DeleteLoggedUser(logout.Token);
             if (!logOut)
             {
-                return Content(HttpStatusCode.NotFound, "No se ha encontrado el token");
+                return Content(HttpStatusCode.NotFound, "Token not found");
             }
             return Ok("Logged out");
+        }
+
+        [Route("", Name = "GetIsLoged")]
+        [HttpGet]
+        public async Task<IHttpActionResult> GetAsync(string token)
+        {
+            await Task.Yield();
+            var isLoged = sessionLogic.IsValidToken(token);
+            if (!isLoged)
+            {
+                return Content(HttpStatusCode.Forbidden, "Invalid token");
+            }
+            return Ok("Logged");
         }
 
     }
