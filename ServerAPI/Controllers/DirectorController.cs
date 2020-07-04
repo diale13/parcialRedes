@@ -110,12 +110,5 @@ namespace ServerAPI.Controllers
                 return Content(HttpStatusCode.NotFound, $"{directorName} does not exist in our database");
             }
         }
-
-
-
-
-
-
-
     }
 }

@@ -10,7 +10,7 @@ namespace IServices
     public interface IGenreService
     {
         void Upload(Genre genToUpload);
-        void Delete(Genre genre);
+        void Delete(string genreName);
         void Update(string genreName, Genre updatedGenre);
         Genre GetGenre(string name);
         bool Exists(string genre);

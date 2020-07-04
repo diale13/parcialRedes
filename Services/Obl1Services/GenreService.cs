@@ -14,8 +14,9 @@ namespace Services
             this.genreDataAccess = genreDataAccess;
         }
 
-        public void Delete(Genre genreToDelete)
+        public void Delete(string genreToDeleteName)
         {
+            var genreToDelete = genreDataAccess.GetGenre(genreToDeleteName);
             if (GenreIsAsociatedToMovie(genreToDelete))
             {
                 throw new AsociatedClassException("No se pudo borrar el genero porque esta asociado a una pelicula");

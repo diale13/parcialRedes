@@ -1,0 +1,27 @@
+CASO DE PRUEBA DEL PARCIAL
+
+POST DIRECTOR:
+{
+    "Name" : "Diego Franggi",
+    "BirthDate" : "1998/12/14",
+    "Genre" : "Accion",
+    "DirectedMovies" : "",
+    "Description" : "Esta cansado y solo quiere dormir"
+}
+   
+POST GENRE
+
+{
+    "Name" : "Accion",
+    "Description" : "Explosions go brr"
+}
+   
+{
+    "Name" : "Sad",
+    "Description" : "Sad go cry cry"
+}
+   
+
+
+   
+

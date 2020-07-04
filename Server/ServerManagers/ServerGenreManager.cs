@@ -37,7 +37,7 @@ namespace Server
             var data = parser.GetDataObject(frame);
             var name = data[0];
             var genreToDelete = genreService.GetGenre(name);
-            genreService.Delete(genreToDelete);
+            genreService.Delete(name);
 
         }
 

@@ -93,6 +93,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DirectorCompleteModelIN.cs" />
+    <Compile Include="Models\GenreCompleteModelIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Middleware\ValidateModelFilter.cs" />
   </ItemGroup>
