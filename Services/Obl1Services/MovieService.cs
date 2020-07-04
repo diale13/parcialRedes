@@ -14,7 +14,6 @@ namespace Services
     {
 
         private readonly IMovieDataAccess movieDataA;
-        private IAsociationApiService asociationService = new AsociationApiService();
         private IDirectorService dirService;
         private IDirectorDataAccess dirDa = new DirectorDataAccess();
 
