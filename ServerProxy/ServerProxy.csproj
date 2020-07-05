@@ -87,10 +87,15 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MovieProxyController.cs" />
     <Compile Include="Controllers\TokenProxyController.cs" />
+    <Compile Include="Controllers\UserProxyController.cs" />
+    <Compile Include="Models\FavoriteMovieModelIn.cs" />
+    <Compile Include="Models\UserModelOut.cs" />
     <Compile Include="Filters\ValidateModelFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Rating\RatingModel.cs" />
+    <Compile Include="Models\Rating\RemoveRatingModel.cs" />
     <Compile Include="Models\UserLogInModel.cs" />
     <Compile Include="Models\UserLogOutModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,6 +116,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{CB683CA9-4380-4B15-93B6-4785DF2D8557}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{59eb5f75-1af4-4a15-9705-69fc9c1982b2}</Project>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

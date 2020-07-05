@@ -21,7 +21,14 @@ namespace Domain
             {
                 total += item.Value;
             }
-            total = (total / UserRating.Count);
+            if (UserRating.Count != 0)
+            {
+                total = 0;
+            }
+            else
+            {
+                total = (total / UserRating.Count);
+            }
             TotalRating = total;
         }
 

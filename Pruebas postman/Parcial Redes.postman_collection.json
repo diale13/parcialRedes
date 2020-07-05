@@ -386,7 +386,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:44359/movie/Paw Patrol/Director/Diego Franggi",
+					"raw": "https://localhost:44359/movie/Paw patrol/Director/Diego Franggi",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -394,7 +394,7 @@
 					"port": "44359",
 					"path": [
 						"movie",
-						"Paw Patrol",
+						"Paw patrol",
 						"Director",
 						"Diego Franggi"
 					]
@@ -419,6 +419,300 @@
 						"Paw patrol",
 						"Director",
 						"Diego Franggi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log In En server 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"NickName\" : \"diale13\",\r\n    \"Password\": \"supersecure123.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44359/Token",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44359",
+					"path": [
+						"Token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log Out En server 1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "d9f02aa3-69ad-47c2-b765-6d92d3785c00",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Token\" : \"d9f02aa3-69ad-47c2-b765-6d92d3785c00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44359/Token",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44359",
+					"path": [
+						"Token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LogIn En server 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"NickName\" : \"diale13\",\r\n    \"Password\": \"supersecure123.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44313/Token",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44313",
+					"path": [
+						"Token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log Out En server 2",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Token\" : \"d9f02aa3-69ad-47c2-b765-6d92d3785c00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44313/Token",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44313",
+					"path": [
+						"Token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get movies en server 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add calification  server 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "5ef5132c-0018-4230-a331-e31902422f27",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"NickName\": \"diale13\",\r\n    \"Rating\": \"10\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44313/Movie/Matrix/rating",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44313",
+					"path": [
+						"Movie",
+						"Matrix",
+						"rating"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove calification server 2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "1e3a532d-c5d4-4550-8790-63f8017af8d5",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"NickName\" : \"diale13\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44313/Movie/Matrix/rating",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44313",
+					"path": [
+						"Movie",
+						"Matrix",
+						"rating"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add fav movie server 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "81b54f65-149f-4f4f-8ecb-224abc932098",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"MovieName\" : \"Matrix\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44313/user/diale13/favoriteMovies",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44313",
+					"path": [
+						"user",
+						"diale13",
+						"favoriteMovies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get fav movies server 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44313/user/diale13/favoriteMovies",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44313",
+					"path": [
+						"user",
+						"diale13",
+						"favoriteMovies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove fav movie server 2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "81b54f65-149f-4f4f-8ecb-224abc932098",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"MovieName\" : \"Matrix\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44313/user/diale13/favoriteMovies",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44313",
+					"path": [
+						"user",
+						"diale13",
+						"favoriteMovies"
 					]
 				}
 			},

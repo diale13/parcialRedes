@@ -1,4 +1,5 @@
 ﻿using IServices;
+using ServerAPI.Filters;
 using ServerAPI.Models;
 using Services;
 using System;
@@ -99,5 +100,67 @@ namespace ServerAPI
             }
             return Ok(movieNames);
         }
+
+   
+        [LogInFilter]
+        [Route("{userName}/favoriteMovies", Name = "AddFavMovie")]
+        [HttpPost]
+        public async Task<IHttpActionResult> AddFavMovieAsync(string userName, [FromBody] FavoriteMovieModelIn movie)
+        {
+            await Task.Yield();
+            if (userName == null || movie == null)
+            {
+                return BadRequest("Nor user nor movie can be empty");
+            }
+            var token = Request.Headers.Authorization.ToString();
+            var sessionLogic = new SessionService();
+            var isCorrectUser = CheckIfSessionIsCorrect(userName, token);
+            if (!isCorrectUser)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, "You cant modify other users accounts"));
+            }
+            var wasUpdated = userLogic.AddFavoriteMovie(userName, movie.MovieName);
+            if (!wasUpdated)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, "The movie or user does not exist in our servers"));
+            }
+            return Ok("Updated favorite movie list");
+        }
+
+        [LogInFilter]
+        [Route("{userName}/favoriteMovies", Name = "RemoveFavMovie")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteFavMovieAsync(string userName, [FromBody] FavoriteMovieModelIn movie)
+        {
+            await Task.Yield();
+            if (userName == null || movie == null)
+            {
+                return BadRequest("Nor user nor movie can be empty");
+            }
+            var token = Request.Headers.Authorization.ToString();
+            var isCorrectUser = CheckIfSessionIsCorrect(userName, token);
+            if (!isCorrectUser)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, "You cant modify other users accounts"));
+            }
+            var wasUpdated = userLogic.RemoveFavoriteMovie(userName, movie.MovieName);
+            if (!wasUpdated)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, "The movie or user does not exist in our servers"));
+            }
+            return Ok("Updated favorite movie list");
+        }
+
+        private bool CheckIfSessionIsCorrect(string userName, string token)
+        {
+            var sessionLogic = new SessionService();
+            var ownerOfToken = sessionLogic.GetUserByToken(token);
+            if (ownerOfToken != userName)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }
