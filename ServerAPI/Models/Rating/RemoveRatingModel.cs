@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAdmin.Models.Rating
+namespace ServerAPI.Models
 {
     public class RemoveRatingModel
     {

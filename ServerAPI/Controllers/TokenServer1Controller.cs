@@ -32,7 +32,11 @@ namespace ServerAPI.Controllers
                 return BadRequest("Nor nickname nor password can be empty");
             }
             var token = sessionLogic.CreateToken(user.NickName, user.Password);
-            return new NegotiatedContentResult<string>(HttpStatusCode.Created, token.ToString(), this);
+            if (token == null)
+            {
+                return Content(HttpStatusCode.NotFound, "Bad credentials");
+            }
+            return Content(HttpStatusCode.Created, token.ToString());
         }
 
         [Route("", Name = "LogOut")]
@@ -53,7 +57,7 @@ namespace ServerAPI.Controllers
             return Ok("Logged out");
         }
 
-        [Route("", Name = "GetIsLoged")]
+        [Route("{token}", Name = "GetIsLoged")]
         [HttpGet]
         public async Task<IHttpActionResult> GetAsync(string token)
         {
@@ -65,6 +69,5 @@ namespace ServerAPI.Controllers
             }
             return Ok("Logged");
         }
-
     }
 }

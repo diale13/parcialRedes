@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAdmin.Models
+namespace ServerAPI.Models
 {
     public class RatingModel
     {

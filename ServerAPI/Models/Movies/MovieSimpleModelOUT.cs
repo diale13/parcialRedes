@@ -13,13 +13,14 @@ namespace ServerAPI.Models
         public List<string> Genres { get; set; }     
         public DateTime Date { get; set; }
         public string Director { get; set; }
-
+        public int Rating { get; set; }
         public MovieSimpleModelOUT(Movie mov)
         {
             this.Name = mov.Name;
             this.Genres = mov.Genres;
             this.Date = mov.Date;
             this.Director = mov.Director;
+            this.Rating = mov.TotalRating;
         }
 
     }

@@ -2,10 +2,13 @@
 using DataAccess.Exceptions;
 using IDataAccess;
 using IServices;
+using ServerAPI.Filters;
 using ServerAPI.Models;
 using Services;
+using Services.RemotingServices;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -16,9 +19,11 @@ namespace ServerAPI.Controllers
     {
         private readonly IMovieService movieService;
         private readonly IAsociationApiService asociationHelper;
+        private readonly IMovieRemotingService oldRemotingService;
         public MovieController()
         {
             IMovieDataAccess da = new MovieDataAccess();
+            oldRemotingService = new MovieRemotingService();
             movieService = new MovieService(da);
             asociationHelper = new AsociationApiService();
         }
@@ -246,5 +251,94 @@ namespace ServerAPI.Controllers
                 return Content(HttpStatusCode.NotFound, $"{e.Message}");
             }
         }
+
+
+        [LogInFilter]
+        [Route("{moviename}/rating", Name = "getRating")]
+        public async Task<IHttpActionResult> GetRatingAsync(string movieName)
+        {
+            await Task.Yield();
+            var movie = oldRemotingService.GetMovie(movieName);
+            if (movie == null)
+            {
+                return Content(HttpStatusCode.NotFound, $"No se encuentra la pelicula solicitada");
+            }
+            var ret = new MovieSimpleModelOUT(movie);
+            return Ok(ret.Rating);
+        }
+
+
+
+        [LogInFilter]
+        [Route("{moviename}/rating", Name = "rateMovie")]
+        [HttpPost]
+        public async Task<IHttpActionResult> AddOrUpdateRatingAsync(string moviename, [FromBody] RatingModel rating)
+        {
+            await Task.Yield();
+            if (moviename == null || rating == null)
+            {
+                return BadRequest("Nor movie nor rating can be empty");
+            }
+            var token = Request.Headers.Authorization.ToString();
+            var isCorrectUser = CheckIfSessionIsCorrect(rating.NickName, token);
+            if (!isCorrectUser)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, "You cant vote for other users"));
+            }
+            var wasRated = oldRemotingService.AddOrUpdateRating(moviename, rating.NickName, rating.Rating);
+            if (!wasRated)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, "The movie does not exist in our servers"));
+            }
+            return Ok("Rating posted");
+        }
+
+
+        [LogInFilter]
+        [Route("{moviename}/rating", Name = "updateRating")]
+        [HttpPut]
+        public async Task<IHttpActionResult> PutRating(string moviename, [FromBody] RatingModel rating)
+        {
+            await Task.Yield();
+            return await AddOrUpdateRatingAsync(moviename, rating);
+        }
+
+        [LogInFilter]
+        [Route("{moviename}/rating", Name = "RemoveRating")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> RemoveRating(string moviename, [FromBody] RemoveRatingModel remove)
+        {
+            await Task.Yield();
+            if (moviename == null || remove == null)
+            {
+                return BadRequest("Movie or username cant be empty");
+            }
+            var token = Request.Headers.Authorization.ToString();
+            var isCorrectUser = CheckIfSessionIsCorrect(remove.NickName, token);
+            if (!isCorrectUser)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, "You cant remove other users vote"));
+            }
+            var wasRemoved = oldRemotingService.RemoveRating(moviename, remove.NickName);
+            if (!wasRemoved)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, "The movie does not exist in our servers"));
+            }
+            return Ok("Vote removed");
+        }
+
+
+        private bool CheckIfSessionIsCorrect(string userName, string token)
+        {
+            var sessionLogic = new SessionService();
+            var ownerOfToken = sessionLogic.GetUserByToken(token);
+            if (ownerOfToken != userName)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
     }
 }

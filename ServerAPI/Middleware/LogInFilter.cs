@@ -1,20 +1,20 @@
 ﻿using IServices;
-using ServerAdmin;
+using Services;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace WebApi.Filters
+namespace ServerAPI.Filters
 {
 
     public class LogInFilter : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext context)
         {
-            var sessionLogic = (ISessionService)Activator.GetObject(
-        typeof(ISessionService), ApiConfig.SessionServiceIp);
+            var sessionLogic = new SessionService();
+
             var authToken = context.Request.Headers.Authorization;
             if (authToken == null)
             {

@@ -1,17 +1,23 @@
-﻿using ServerProxy.Models;
+﻿using Common;
+using Common.Interfaces;
+using Newtonsoft.Json;
+using ServerProxy.Models;
+using System.Configuration;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace ServerProxy.Controllers
 {
-    [RoutePrefix("Token2")]
-    public class TokenController : ApiController
+    [RoutePrefix("Token")]
+    public class TokenProxyController : ApiController
     {
-        private HttpClient client;
+        private HttpClient client;       
 
-        public TokenController()
+        public TokenProxyController()
         {
             client = new HttpClient();
         }
@@ -30,12 +36,19 @@ namespace ServerProxy.Controllers
             {
                 return BadRequest("Nor nickname nor password can be empty");
             }
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44359/Token");
+
+            var target = ConfigurationManager.AppSettings["LogInIP"];
+            var request = new HttpRequestMessage(HttpMethod.Post, target);
+            var jsonUser = JsonConvert.SerializeObject(user);
+            var stringContent = new StringContent(jsonUser, UnicodeEncoding.UTF8, "application/json");
+            request.Content = stringContent;
             var response = await client.SendAsync(request);
             if (response.IsSuccessStatusCode)
             {
-                var content = response.Content.ToString();
-                return Ok(content);
+                var returned = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
+                var contentJson = jsonSerializer.DeserializeObject(returned);
+                return Ok(contentJson);
             }
             else
             {
@@ -54,12 +67,15 @@ namespace ServerProxy.Controllers
             {
                 return BadRequest("Token was empty");
             }
-            var request = new HttpRequestMessage(HttpMethod.Delete, "https://localhost:44359/Token");
+            var target = ConfigurationManager.AppSettings["LogIOutIP"];
+            var request = new HttpRequestMessage(HttpMethod.Post, target);
             var response = await client.SendAsync(request);
             if (response.IsSuccessStatusCode)
             {
-                var content = response.Content.ToString();
-                return Ok(content);
+                var returned = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
+                var contentJson = jsonSerializer.DeserializeObject(returned);
+                return Ok(contentJson);
             }
             else
             {

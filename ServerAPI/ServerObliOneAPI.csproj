@@ -93,6 +93,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middleware\LogInFilter.cs" />
+    <Compile Include="Models\Rating\RatingModel.cs" />
+    <Compile Include="Models\Rating\RemoveRatingModel.cs" />
     <Compile Include="Models\DirectorCompleteModelIN.cs" />
     <Compile Include="Models\GenreCompleteModelIn.cs" />
     <Compile Include="Models\Movies\MovieSimpleModelOUT.cs" />
