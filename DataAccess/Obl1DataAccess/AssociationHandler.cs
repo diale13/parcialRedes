@@ -46,33 +46,39 @@ namespace DataAccess
 
         private void UpdateMovieAfterASociation(Movie mov)
         {
-            var indexToModify = movies.FindIndex(movInList => movInList.Name.Equals(mov.Name));
-            if (indexToModify == -1)
-            {
-                throw new DataBaseException("No se encontro el genero solicitado");
-            }
-            movies[indexToModify] = mov;
+            //var indexToModify = movies.FindIndex(movInList => movInList.Name.Equals(mov.Name));
+            //if (indexToModify == -1)
+            //{
+            //    throw new DataBaseException("No se encontro el genero solicitado");
+            //}
+            //movies[indexToModify] = mov;
+            IMovieDataAccess movieDataAccess = new MovieDataAccess();
+            movieDataAccess.Update(mov.Name, mov);
         }
 
         private void UpdateGenreAfterAsociation(Genre gen)
         {
-            var indexToModify = genres.FindIndex(genInList => genInList.Name.Equals(gen.Name));
-            if (indexToModify == -1)
-            {
-                throw new DataBaseException("No se encontro el genero solicitado");
-            }
-            genres[indexToModify] = gen;
+            //var indexToModify = genres.FindIndex(genInList => genInList.Name.Equals(gen.Name));
+            //if (indexToModify == -1)
+            //{
+            //    throw new DataBaseException("No se encontro el genero solicitado");
+            //}
+            //genres[indexToModify] = gen;
+            IGenreDataAccess genreDataAccess = new GenreDataAccess();
+            genreDataAccess.Update(gen.Name, gen);
         }
 
 
         private void UpdateDirectorAfterAsociation(Director dir)
         {
-            var indexToModify = directors.FindIndex(dirInList => dirInList.Name.Equals(dir.Name));
-            if (indexToModify == -1)
-            {
-                throw new DataBaseException("No se encontro el director solicitado");
-            }
-            directors[indexToModify] = dir;
+            //var indexToModify = directors.FindIndex(dirInList => dirInList.Name.Equals(dir.Name));
+            //if (indexToModify == -1)
+            //{
+            //    throw new DataBaseException("No se encontro el director solicitado");
+            //}
+            //directors[indexToModify] = dir;
+            IDirectorDataAccess directorDataAccess = new DirectorDataAccess();
+            directorDataAccess.AddDirector(dir);
         }
 
 

@@ -48,9 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Director.cs" />
+    <Compile Include="FileMovie.cs" />
+    <Compile Include="FileMovieAssociation.cs" />
     <Compile Include="Genre.cs" />
     <Compile Include="ApiUser.cs" />
     <Compile Include="Movie.cs" />
+    <Compile Include="MovieGenreAssociation.cs" />
+    <Compile Include="MovieUserAssociation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerEvent.cs" />
     <Compile Include="User.cs" />

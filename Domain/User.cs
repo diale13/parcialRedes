@@ -8,12 +8,12 @@ namespace Domain
 {
     public class User
     {
-        public int Id { get; set; }
+        public int Identifier { get; set; }
         public string Time { get; set; }
 
         public override string ToString()
         {
-            string ret = "Id: " + Id + " hora de conexion: " + Time;
+            string ret = "Id: " + Identifier + " hora de conexion: " + Time;
             return ret;
         }
 
