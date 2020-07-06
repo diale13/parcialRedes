@@ -717,6 +717,43 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "File en server unoo ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "firstFile",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "firstFile",
+							"type": "file",
+							"src": "/D:/respaldo Diego/siginiore carpeta/aCarpetaMomazos/62/Ebo5aclWkAEuJ0_.jfif"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:44359/movie/Matrix/file",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44359",
+					"path": [
+						"movie",
+						"Matrix",
+						"file"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

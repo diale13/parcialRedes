@@ -1,16 +1,22 @@
 ﻿using DataAccess;
 using DataAccess.Exceptions;
+using Domain;
 using IDataAccess;
 using IServices;
 using ServerAPI.Filters;
 using ServerAPI.Models;
 using Services;
 using Services.RemotingServices;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using System.Web.UI.WebControls;
 
 namespace ServerAPI.Controllers
 {
@@ -49,7 +55,7 @@ namespace ServerAPI.Controllers
             await Task.Yield();
             try
             {
-                var mov = movieService.GetMovie(movieName);                
+                var mov = movieService.GetMovie(movieName);
                 return Ok(new MovieSimpleModelOUT(mov));
             }
             catch (DataBaseException)
@@ -327,6 +333,46 @@ namespace ServerAPI.Controllers
             return Ok("Vote removed");
         }
 
+
+
+        [Route("{moviename}/file", Name = "AddFile")]
+        [HttpPost]
+        public async Task<IHttpActionResult> Upload(string movieName)
+        {
+            await Task.Yield();
+            var httpRequest = HttpContext.Current.Request;
+            if (httpRequest.Files.Count < 1)
+            {
+                return BadRequest("Add files to your request");
+            }
+            try
+            {
+                var mov = movieService.GetMovie(movieName);
+                foreach (string file in httpRequest.Files)
+                {
+                    var postedFile = httpRequest.Files[file];
+                    var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
+                    postedFile.SaveAs(filePath);
+                    AddFileToMovie(mov, postedFile.FileName);
+                }
+                movieService.Update(mov.Name, mov);
+                return Content(HttpStatusCode.Created, "UPLOADED");
+            }
+            catch (DataBaseException)
+            {
+                return Content(HttpStatusCode.NotFound, "Movie not found in our servers");
+            }
+            //Casi muero con este codigo tan sencillo asi que senti la necesidad de firmarlo -Franggi 2020
+        }
+
+        private void AddFileToMovie(Movie mov, string name)
+        {
+            if(mov.Files == null)
+            {
+                mov.Files = new List<string>();
+            }
+            mov.Files.Add("~/" + name);
+        }
 
         private bool CheckIfSessionIsCorrect(string userName, string token)
         {
