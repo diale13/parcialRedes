@@ -67,6 +67,8 @@ namespace DataAccess
             try
             {
                 semaphore.WaitAsync();
+                if (context.Genres.ToList() == null)
+                    return new List<Genre>();
                 return context.Genres.ToList();
             }
             catch (DataBaseException)

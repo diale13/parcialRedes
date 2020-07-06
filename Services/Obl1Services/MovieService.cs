@@ -3,10 +3,8 @@ using DataAccess.Exceptions;
 using Domain;
 using IDataAccess;
 using IServices;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace Services
 {
@@ -43,8 +41,6 @@ namespace Services
         {
             IGenreDataAccess genreDataAccess = new GenreDataAccess();
             IGenreService genreService = new GenreService(genreDataAccess);
-
-
 
             if (movieToUpload.Genres.Count() < 1)
             {
@@ -86,9 +82,6 @@ namespace Services
             dir.DirectedMovies = dirMov;
             dirService.UpdateDirector(dir.Name, dir);
         }
-
-
-
         public Movie GetMovie(string name)
         {
             return movieDataA.GetMovie(name);
