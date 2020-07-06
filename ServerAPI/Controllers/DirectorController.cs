@@ -78,7 +78,7 @@ namespace ServerAPI.Controllers
             try
             {
                 directorService.DeleteDirector(directorName);
-                return Content(HttpStatusCode.Created, $"{directorName} created");
+                return Content(HttpStatusCode.Created, $"{directorName} deleted");
             }
             catch (DataBaseException)
             {

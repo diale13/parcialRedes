@@ -28,7 +28,7 @@ namespace DataAccess
         {
             try
             {
-                //semaphore.WaitAsync();
+                semaphore.WaitAsync();
                 if (!NameNotUnique(director.Name))
                 {
                     //directors.Add(director);

@@ -32,6 +32,10 @@ namespace Services
         public void DeleteDirector(string name)
         {
             var dir = directorDataAccess.GetDirector(name);
+            if(dir.DirectedMovies == null)
+            {
+                dir.DirectedMovies = new List<string>();
+            }
             if (dir.DirectedMovies.Count() != 0)
             {
                 throw new BussinesLogicException("Un director no puede ser borrado si esta asociado a una pelicula");
