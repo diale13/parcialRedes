@@ -14,10 +14,7 @@ namespace DataAccess
 {
     public class MovieDataAccess : IMovieDataAccess
     {
-        //private List<Movie> movies = MemoryDataBase.GetInstance().Movies;
-        //private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
-        //ModifyQueue queue = ModifyQueue.GetInstance();
-
+        private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);   
         private Context context;
 
         public MovieDataAccess()
@@ -62,25 +59,10 @@ namespace DataAccess
 
         public void Delete(Movie movie)
         {
-            //queue.ChckAndAddToMovieList(movie.Name);
-            //try
-            //{
-            //    semaphore.WaitAsync();
-            //    var indexToDelete = movies.FindIndex(mov => mov.Name.Equals(movie.Name));
-            //    if (indexToDelete == -1)
-            //    {
-            //        queue.RemoveMovieFromModifyQueue(movie.Name);
-            //        throw new DataBaseException("No se encontro la pelicula solicitada");
-            //    }
-            //    movies.RemoveAt(indexToDelete);
-            //}
-            //finally
-            //{
-            //    semaphore.Release();
-            //    queue.RemoveMovieFromModifyQueue(movie.Name);
-            //}
+
             try
             {
+                semaphore.WaitAsync();
                 if (Exists(movie))
                 {
 
@@ -88,7 +70,7 @@ namespace DataAccess
                     RemoveMovieFromDirectorList(movie);
                     RemoveFiles(movie);
                     RemoveRating(movie);
-                     context.SaveChangesAsync();
+                    context.SaveChangesAsync();
                 }
                 else
                 {
@@ -102,6 +84,10 @@ namespace DataAccess
             catch (Exception)
             {
                 throw new DataBaseException($"La película {movie.Name} no se pudo borrar");
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
 
@@ -143,6 +129,7 @@ namespace DataAccess
         {
             try
             {
+                semaphore.WaitAsync();
                 List<Movie> movies = GetMovies();
                 foreach (var movie in movies)
                 {
@@ -176,13 +163,6 @@ namespace DataAccess
                     }
                 }
                 throw new DataBaseException($"La película {movieName} no se encontró en la base de datos");
-                //semaphore.WaitAsync();
-                //int indexToReturn = movies.FindIndex(mov => mov.Name.Equals(movieName));
-                //if (indexToReturn == -1)
-                //{
-                //    throw new DataBaseException("No se encontro la pelicula solicitada");
-                //}
-                //return movies[indexToReturn];
             }
             catch (DbException)
             {
@@ -191,6 +171,10 @@ namespace DataAccess
             catch (Exception)
             {
                 throw new DataBaseException($"No se pudo obtener la película {movieName}");
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
 
@@ -213,6 +197,7 @@ namespace DataAccess
         {
             try
             {
+                semaphore.WaitAsync();
                 var movie = context.Movies.SingleOrDefault(m => m.Name.Equals(movieName));
                 if (movie != null)
                 {
@@ -244,23 +229,10 @@ namespace DataAccess
             {
                 throw new DataBaseException($"No se pudo actualizar la película {movieName}");
             }
-            //queue.ChckAndAddToMovieList(movieName);
-            //try
-            //{
-            //    semaphore.WaitAsync();
-            //    var indexToModify = movies.FindIndex(mov => mov.Name.Equals(movieName));
-            //    if (indexToModify == -1)
-            //    {
-            //        queue.RemoveMovieFromModifyQueue(movieName);
-            //        throw new DataBaseException("No se encontro la pelicula solicitada");
-            //    }
-            //    movies[indexToModify] = updatedMovie;
-            //}
-            //finally
-            //{
-            //    semaphore.Release();
-            //    queue.RemoveMovieFromModifyQueue(movieName);
-            //}
+            finally
+            {
+                semaphore.Release();
+            }
         }
 
 
@@ -268,6 +240,7 @@ namespace DataAccess
         {
             try
             {
+                semaphore.WaitAsync();
                 if (!Exists(mov))
                 {
                     foreach (var association in mov.UserRating)
@@ -298,12 +271,17 @@ namespace DataAccess
             {
                 throw new DataBaseException($"No se pudo cargar correctamente la pelicula {mov.Name}");
             }
+            finally
+            {
+                semaphore.Release();
+            }
         }
 
         public List<Movie> GetMovies()
         {
             try
             {
+                semaphore.WaitAsync();
                 List<Movie> movies = context.Movies.ToList();
                 List<Movie> ret = new List<Movie>();
                 foreach (var mov in movies)
@@ -320,6 +298,10 @@ namespace DataAccess
             catch (Exception)
             {
                 throw new DataBaseException("No se pudieron obtener las películas de la base de datos");
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
     }
