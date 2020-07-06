@@ -28,7 +28,7 @@ namespace DataAccess
         {
             try
             {
-                semaphore.WaitAsync()
+                semaphore.WaitAsync();
                 if (Exists(genreToDelete.Name))
                 {
                     context.Genres.Remove(genreToDelete);
@@ -180,7 +180,7 @@ namespace DataAccess
         {
             try
             {
-                semaphore.WaitAsync()
+                semaphore.WaitAsync();
                 if (Exists(name))
                 {
                     List<Genre> genres = GetGenres();
