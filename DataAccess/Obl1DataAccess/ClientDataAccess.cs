@@ -106,7 +106,7 @@ namespace DataAccess
                 //users.RemoveAt(indexToDelete);
                 User userToRemove = GetUser(userId);
                 context.Users.Remove(userToRemove);
-                context.SaveChanges();
+                context.SaveChangesAsync();
             }
             catch (DbException)
             {

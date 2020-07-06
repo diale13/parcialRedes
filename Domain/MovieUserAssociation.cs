@@ -2,8 +2,8 @@
 {
     public class MovieUserAssociation
     {
-        public string User;
-        public string Movie;
-        public int Rating;
+        public string User { get; set; }
+        public string Movie { get; set; }
+        public int Rating { get; set; }
     }
 }

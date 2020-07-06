@@ -46,26 +46,31 @@ namespace DataAccess
 
         private void UpdateMovieAfterASociation(Movie mov)
         {
-            //var indexToModify = movies.FindIndex(movInList => movInList.Name.Equals(mov.Name));
-            //if (indexToModify == -1)
-            //{
-            //    throw new DataBaseException("No se encontro el genero solicitado");
-            //}
-            //movies[indexToModify] = mov;
-            IMovieDataAccess movieDataAccess = new MovieDataAccess();
-            movieDataAccess.Update(mov.Name, mov);
+            try
+            {
+                semaphore.WaitAsync();
+                IMovieDataAccess movieDataAccess = new MovieDataAccess();
+                movieDataAccess.Update(mov.Name, mov);
+            }
+            finally
+            {
+                semaphore.Release();
+            }
         }
 
         private void UpdateGenreAfterAsociation(Genre gen)
         {
-            //var indexToModify = genres.FindIndex(genInList => genInList.Name.Equals(gen.Name));
-            //if (indexToModify == -1)
-            //{
-            //    throw new DataBaseException("No se encontro el genero solicitado");
-            //}
-            //genres[indexToModify] = gen;
-            IGenreDataAccess genreDataAccess = new GenreDataAccess();
-            genreDataAccess.Update(gen.Name, gen);
+            try
+            {
+                semaphore.WaitAsync();
+                IGenreDataAccess genreDataAccess = new GenreDataAccess();
+                genreDataAccess.Update(gen.Name, gen);
+            }
+            finally
+            {
+                semaphore.Release();
+            }
+
         }
 
 

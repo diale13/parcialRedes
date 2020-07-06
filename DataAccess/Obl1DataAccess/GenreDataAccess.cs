@@ -13,7 +13,7 @@ namespace DataAccess
     public class GenreDataAccess : IGenreDataAccess
     {
         //private List<Genre> genres = MemoryDataBase.GetInstance().Genres;
-        //private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+        private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
         //ModifyQueue queue = ModifyQueue.GetInstance();
 
         private Context context;
@@ -21,30 +21,14 @@ namespace DataAccess
         public GenreDataAccess()
         {
             context = new Context();
+            context.Configuration.AutoDetectChangesEnabled = false;
         }
 
         public void Delete(Genre genreToDelete)
         {
-            //queue.ChckAndAddToGenreList(genreToDelete.Name);
-            //try
-            //{
-            //    semaphore.WaitAsync();
-            //    var indexToDelete = genres.FindIndex(gen => gen.Name.Equals(genreToDelete.Name));
-            //    if (indexToDelete == -1)
-            //    {
-            //        queue.RemoveGenreFromQueue(genreToDelete.Name);
-            //        throw new DataBaseException("No se encontro el genero solicitado");
-            //    }
-
-            //    genres.RemoveAt(indexToDelete);
-            //}
-            //finally
-            //{
-            //    semaphore.Release();
-            //    queue.RemoveGenreFromQueue(genreToDelete.Name);
-            //}
             try
             {
+                semaphore.WaitAsync()
                 if (Exists(genreToDelete.Name))
                 {
                     context.Genres.Remove(genreToDelete);
@@ -70,23 +54,19 @@ namespace DataAccess
             }
             catch (Exception)
             {
-                throw new DataBaseException($"No se pudo borrar el género {genreToDelete.Name}"); 
+                throw new DataBaseException($"No se pudo borrar el género {genreToDelete.Name}");
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
 
         public List<Genre> GetGenres()
         {
-            //try
-            //{
-            //    semaphore.WaitAsync();
-            //    return genres;
-            //}
-            //finally
-            //{
-            //    semaphore.Release();
-            //}
             try
             {
+                semaphore.WaitAsync();
                 return context.Genres.ToList();
             }
             catch (DataBaseException)
@@ -96,6 +76,10 @@ namespace DataAccess
             catch (Exception)
             {
                 throw new DataBaseException("No se pudo obtener los géneros de la base de datos");
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
 
@@ -111,31 +95,15 @@ namespace DataAccess
 
         public void Update(string genreName, Genre updatedGenre)
         {
-            //queue.ChckAndAddToGenreList(genreName);
-            //try
-            //{
-            //    semaphore.WaitAsync();
-            //    var indexToModify = genres.FindIndex(gen => gen.Name.Equals(genreName));
-            //    if (indexToModify == -1)
-            //    {
-            //        queue.RemoveGenreFromQueue(genreName);
-            //        throw new DataBaseException("No se encontro el genero solicitado");
-            //    }
-            //    genres[indexToModify] = updatedGenre;
-            //}
-            //finally
-            //{
-            //    semaphore.Release();
-            //    queue.RemoveGenreFromQueue(genreName);
-            //}
             try
             {
+                semaphore.WaitAsync();
                 var genre = context.Genres.SingleOrDefault(g => g.Name.Equals(genreName));
-                if(genre != null)
+                if (genre != null)
                 {
                     genre.Description = updatedGenre.Description;
                     List<MovieGenreAssociation> movieGenreAssociations = context.MovieGenreAssociations.ToList();
-                    foreach(var association in movieGenreAssociations)
+                    foreach (var association in movieGenreAssociations)
                     {
                         if (association.GenreName.Equals(genreName))
                         {
@@ -143,7 +111,7 @@ namespace DataAccess
                             context.SaveChanges();
                         }
                     }
-                    foreach(var movie in updatedGenre.MoviesOfGenre)
+                    foreach (var movie in updatedGenre.MoviesOfGenre)
                     {
                         MovieGenreAssociation movieGenreAssociation = new MovieGenreAssociation()
                         {
@@ -159,33 +127,21 @@ namespace DataAccess
             {
                 throw new DataBaseException("No se pudo conectar con la base de datos");
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new DataBaseException($"No se pudo actualizar el género {genreName}");
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
 
         public void Upload(Genre genre)
         {
-            //try
-            //{
-            //    semaphore.WaitAsync();
-
-            //    if (IsNameUnique(genre.Name))
-            //    {
-            //        genres.Add(genre);
-            //    }
-            //    else
-            //    {
-            //        throw new DataBaseException("Ya existe un genero con ese nombre");
-            //    }
-            //}
-            //finally
-            //{
-            //    semaphore.Release();
-            //}
             try
             {
+                semaphore.WaitAsync();
                 if (!Exists(genre.Name))
                 {
                     context.Genres.Add(genre);
@@ -205,34 +161,26 @@ namespace DataAccess
                     throw new DataBaseException("Ya existe un genero con ese nombre");
                 }
             }
-            catch (DbException)
+            catch (DbException e)
             {
                 throw new DataBaseException("No se pudo conectar con la base de datos");
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new DataBaseException($"No se pudo agregar a la base de datos el género {genre.Name}");
             }
+            finally
+            {
+                semaphore.Release();
+            }
+
         }
 
         public Genre GetGenre(string name)
         {
-            //try
-            //{
-            //    semaphore.WaitAsync();
-            //    var indexToReturn = genres.FindIndex(gen => gen.Name.Equals(name));
-            //    if (indexToReturn == -1)
-            //    {
-            //        throw new DataBaseException("No se encontro el genero solicitado");
-            //    }
-            //    return genres[indexToReturn];
-            //}
-            //finally
-            //{
-            //    semaphore.Release();
-            //}
             try
             {
+                semaphore.WaitAsync()
                 if (Exists(name))
                 {
                     List<Genre> genres = GetGenres();
@@ -259,6 +207,10 @@ namespace DataAccess
             catch (Exception)
             {
                 throw new DataBaseException("No se pudo encontrar el elemento buscado");
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
     }

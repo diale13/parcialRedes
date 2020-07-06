@@ -50,12 +50,12 @@ namespace DataAccess
         private void RemoveRating(Movie movie)
         {
             List<MovieUserAssociation> movieUserAssociations = context.MovieUserAssociations.ToList();
-            foreach(var association in movieUserAssociations)
+            foreach (var association in movieUserAssociations)
             {
                 if (association.Movie.Equals(movie))
                 {
                     context.MovieUserAssociations.Remove(association);
-                    context.SaveChanges();
+                    context.SaveChangesAsync();
                 }
             }
         }
@@ -88,7 +88,7 @@ namespace DataAccess
                     RemoveMovieFromDirectorList(movie);
                     RemoveFiles(movie);
                     RemoveRating(movie);
-                    context.SaveChanges();
+                     context.SaveChangesAsync();
                 }
                 else
                 {
@@ -149,7 +149,7 @@ namespace DataAccess
                     if (movie.Name.Equals(movieName))
                     {
                         List<MovieUserAssociation> movieUserAssociations = context.MovieUserAssociations.ToList();
-                        foreach(var association in movieUserAssociations)
+                        foreach (var association in movieUserAssociations)
                         {
                             if (association.Movie.Equals(movieName))
                             {
@@ -157,7 +157,7 @@ namespace DataAccess
                             }
                         }
                         List<MovieGenreAssociation> movieGenreAssociations = context.MovieGenreAssociations.ToList();
-                        foreach(var association in movieGenreAssociations)
+                        foreach (var association in movieGenreAssociations)
                         {
                             if (association.MovieName.Equals(movieName))
                             {
@@ -165,7 +165,7 @@ namespace DataAccess
                             }
                         }
                         List<FileMovie> fileMovies = context.FileMovies.ToList();
-                        foreach(var association in fileMovies)
+                        foreach (var association in fileMovies)
                         {
                             if (association.MovieName.Equals(movieName))
                             {
@@ -233,7 +233,7 @@ namespace DataAccess
                     AddMovieToDirectorMovieList(updatedMovie);
                     movie.Date = updatedMovie.Date;
                     movie.Director = updatedMovie.Director;
-                    context.SaveChanges();
+                    context.SaveChangesAsync();
                 }
             }
             catch (DbException)
@@ -270,7 +270,7 @@ namespace DataAccess
             {
                 if (!Exists(mov))
                 {
-                    foreach(var association in mov.UserRating)
+                    foreach (var association in mov.UserRating)
                     {
                         MovieUserAssociation movieUserAssociation = new MovieUserAssociation()
                         {
@@ -283,7 +283,7 @@ namespace DataAccess
                     AddMovieToDirectorMovieList(mov);
                     AddFiles(mov);
                     context.Movies.Add(mov);
-                    context.SaveChanges();
+                    context.SaveChangesAsync();
                 }
                 else
                 {
@@ -306,7 +306,7 @@ namespace DataAccess
             {
                 List<Movie> movies = context.Movies.ToList();
                 List<Movie> ret = new List<Movie>();
-                foreach(var mov in movies)
+                foreach (var mov in movies)
                 {
                     Movie movieToAdd = GetMovie(mov.Name);
                     ret.Add(movieToAdd);

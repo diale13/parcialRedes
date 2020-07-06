@@ -31,19 +31,19 @@ namespace Persistance
             modelBuilder.Entity<FileMovie>().ToTable("Files");
             modelBuilder.Entity<MovieUserAssociation>().ToTable("Bridge_Movie_User");
 
-            modelBuilder.Entity<Movie>().Property(m => m.Name).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Movie>().Property(m => m.Name).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<Movie>().HasKey(m => m.Name);
-            modelBuilder.Entity<Director>().Property(d => d.Name).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Director>().Property(d => d.Name).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<Director>().HasKey(d => d.Name);
-            modelBuilder.Entity<Genre>().Property(g => g.Name).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Genre>().Property(g => g.Name).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<Genre>().HasKey(g => g.Name);
-            modelBuilder.Entity<User>().Property(u => u.Identifier).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<User>().Property(u => u.Identifier).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<User>().HasKey(u => u.Identifier);
-            modelBuilder.Entity<MovieGenreAssociation>().Property(a => a.GenreName).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<MovieGenreAssociation>().Property(a => a.GenreName).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<MovieGenreAssociation>().HasKey(a => new { a.GenreName, a.MovieName });
-            modelBuilder.Entity<FileMovie>().Property(f => f.Path).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<FileMovie>().Property(f => f.Path).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<FileMovie>().HasKey(f => f.Path);
-            modelBuilder.Entity<MovieUserAssociation>().Property(a => a.Movie).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<MovieUserAssociation>().Property(a => a.Movie).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<MovieUserAssociation>().HasKey(a => new { a.Movie, a.User });
         }
     }
